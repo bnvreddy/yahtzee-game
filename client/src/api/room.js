@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '${import.meta.env.VITE_API_URL}/api/room';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/room`;
 
 const createRoom = async (hostId, hostDisplay, mode, entryFee) => {
   const response = await axios.post(`${API_URL}/create`, { hostId, hostDisplay, mode, entryFee });
