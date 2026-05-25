@@ -2,8 +2,6 @@ const prisma = require('../config/db');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
-
     // When a player opens the waiting room page
     socket.on('join-room-waiting', async (roomCode) => {
       socket.join(roomCode);
