@@ -12,11 +12,11 @@ const initChatSocket = require('./server/sockets/chatSocket');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
-  cors: { origin: "*" }
+  cors: { origin: ['http://localhost:5173', process.env.CLIENT_URL] }
 });
 
 app.use(cors({
-  origin: '*',
+  origin: ['http://localhost:5173', process.env.CLIENT_URL], // Allow both local and deployed frontend
 }));
 app.use(express.json());
 
