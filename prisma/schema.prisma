@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  loginname     String   @unique
+  displayname   String
+  password      String
+  coins         Int      @default(1000)
+  currentStreakDay Int   @default(1)
+  lastCheckIn   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  code      String   @unique // The 6-character room code
+  mode      String   @default("normal") // "normal" or "bet"
+  entryFee  Int      @default(100) // Custom entry fee set by host
+  hostId    String   // The loginname of the creator
+  players   String   @default("[]") // JSON array of loginnames in the room
+  status    String   @default("waiting") // "waiting", "active", "finished"
+  createdAt DateTime @default(now())
+}

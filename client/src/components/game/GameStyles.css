@@ -1,0 +1,192 @@
+/* --- GAME LAYOUT (Mobile Optimized: Scorecard Scroll, Dice Fixed Bottom) --- */
+.game-page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Take up full phone screen */
+  overflow: hidden; /* Prevent whole page scrolling */
+  background-color: var(--bg-color);
+}
+
+.game-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 15px; background-color: var(--card-bg);
+  border-bottom: 1px solid #334155; flex-shrink: 0; z-index: 50;
+}
+
+.game-header-left h2 { font-size: 1rem; margin: 0; }
+.game-header-left p { font-size: 0.75rem; margin: 0; color: var(--text-gray); }
+.game-header-right { display: flex; align-items: center; gap: 10px; }
+.wallet-text { color: #fbbf24; font-weight: bold; font-size: 0.9rem; margin: 0; }
+
+.game-content-scroll {
+  flex: 1; /* Takes up all remaining space */
+  overflow-y: auto; /* Only the scorecard scrolls */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhone */
+}
+
+.game-dice-footer {
+  background-color: var(--card-bg);
+  padding: 10px 0 20px 0; /* Extra padding at bottom for thumbs */
+  border-top: 1px solid #334155;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.3); /* Lifts it off the scorecard */
+  flex-shrink: 0; /* Prevents dice from squishing */
+  z-index: 50;
+}
+
+/* --- DICE AREA --- */
+.dice-area { text-align: center; padding: 0; }
+.dice-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 8px; }
+
+.single-die {
+  width: 50px; height: 50px;
+  background-color: white; color: black;
+  border-radius: 8px; display: flex; justify-content: center; align-items: center;
+  cursor: pointer; user-select: none;
+  transition: transform 0.1s; box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+}
+
+.single-die.held { background-color: var(--primary-color); color: white; transform: translateY(-5px); }
+.single-die.unrolled { background-color: #475569; color: #1e293b; }
+.single-die.rolling { animation: diceRoll 0.4s ease-out; background-color: #e2e8f0; }
+
+@keyframes diceRoll {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(90deg); }
+  50% { transform: translateY(0) rotate(180deg); }
+  75% { transform: translateY(-5px) rotate(270deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+.dice-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); width: 100%; height: 100%; padding: 6px; }
+.dot-container { display: flex; justify-content: center; align-items: center; opacity: 0; }
+.dot-container.visible { opacity: 1; }
+.dot { width: 9px; height: 9px; background-color: #1e293b; border-radius: 50%; }
+.single-die.held .dot { background-color: white; }
+
+.top-left { grid-area: 1 / 1; } .top-center { grid-area: 1 / 2; } .top-right { grid-area: 1 / 3; }
+.middle-left { grid-area: 2 / 1; } .middle-center { grid-area: 2 / 2; } .middle-right { grid-area: 2 / 3; }
+.bottom-left { grid-area: 3 / 1; } .bottom-center { grid-area: 3 / 2; } .bottom-right { grid-area: 3 / 3; }
+
+.rolls-left-text { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 5px; }
+.roll-btn { width: 140px; padding: 10px; font-size: 0.9rem; margin-top: 5px; }
+
+/* --- SCORECARD --- */
+.scorecard-container {
+  background-color: transparent; padding: 15px;
+  margin-top: 0; width: 100%; overflow-x: visible;
+}
+
+.scorecard-grid { display: grid; gap: 2px; min-width: 300px; }
+
+.score-header-cat, .score-header-player {
+  padding: 6px 4px; font-weight: bold; color: var(--primary-color);
+  border-bottom: 1px solid #334155; text-align: center; font-size: 0.75rem;
+  background-color: var(--bg-color); position: sticky; top: 0; z-index: 10;
+}
+.score-header-cat { text-align: left; }
+
+.score-category { padding: 7px 4px; font-size: 0.8rem; background-color: #334155; border-radius: 4px 0 0 4px; }
+.score-cell { padding: 7px 4px; text-align: center; font-weight: bold; background-color: #334155; border-radius: 0 4px 4px 0; font-size: 0.85rem; }
+
+.score-cell.potential { color: #64748b; }
+.score-cell.clickable { cursor: pointer; background-color: #475569; color: #fbbf24; }
+.score-cell.clickable:hover { background-color: var(--primary-color); color: white; }
+.score-cell.locked { background-color: #1e293b; color: white; }
+.score-category.locked { background-color: #1e293b; color: #64748b; }
+
+.bonus-row, .total-row { margin-top: 8px; border-top: 1px solid #334155; padding-top: 8px; background-color: transparent; }
+.total-row { color: var(--primary-color); font-weight: bold; }
+.bonus-achieved { color: var(--primary-color) !important; font-weight: bold; }
+
+/* --- CHAT DRAWER (Modern Mobile App Style) --- */
+.chat-fab {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 50px; height: 50px; background-color: var(--secondary-color);
+  color: white; border: none; border-radius: 50%; font-size: 1.2rem;
+  cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  z-index: 100; display: flex; justify-content: center; align-items: center;
+}
+
+.chat-badge {
+  position: absolute; top: -5px; right: -5px;
+  background-color: var(--danger); color: white; border-radius: 50%;
+  width: 20px; height: 20px; font-size: 0.75rem;
+  display: flex; justify-content: center; align-items: center; font-weight: bold;
+}
+
+.chat-drawer {
+  position: fixed; top: 0; right: 0; width: 100%; height: 100vh;
+  background-color: var(--bg-color); 
+  z-index: 999; display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.3s ease-in-out;
+}
+.chat-drawer.open { transform: translateX(0); }
+
+.chat-drawer-header {
+  display: flex; 
+  justify-content: space-between; /* FORCES the title left and button right */
+  align-items: center; 
+  padding: 15px; 
+  background-color: var(--card-bg);
+  border-bottom: 1px solid #334155; 
+  flex-shrink: 0;
+}
+
+.chat-drawer-header h3 { margin: 0; color: var(--primary-color); } /* Removed flex: 1 */
+
+.chat-close-btn {
+  background: none; border: none; color: var(--text-light); 
+  font-size: 1.8rem; cursor: pointer; 
+  padding: 0; line-height: 1;
+}
+
+.chat-messages {
+  flex: 1; padding: 15px; overflow-y: auto; 
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 0; /* CRITICAL: Stops flexbox from pushing input off screen */
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-empty { color: #64748b; text-align: center; margin-top: 50px; }
+.chat-message { font-size: 0.9rem; background-color: var(--card-bg); padding: 10px 14px; border-radius: 12px; border-top-left-radius: 2px; }
+.chat-message.my-message { background-color: #172554; border-left: 3px solid var(--secondary-color); border-top-left-radius: 2px; }
+.chat-timestamp { font-size: 0.7rem; color: #64748b; margin-right: 5px; }
+.chat-name { color: #60a5fa; font-weight: bold; }
+
+.chat-input-form {
+  display: flex; padding: 15px; 
+  background-color: var(--card-bg);
+  border-top: 1px solid #334155;
+  align-items: center; gap: 10px;
+  flex-shrink: 0; /* Prevents input from squishing */
+}
+.chat-input {
+  flex: 1; padding: 12px 20px;
+  border: 1px solid #475569; border-radius: 25px; /* Pill shape */
+  background: var(--bg-color); color: white; font-size: 0.95rem;
+}
+.chat-input:focus { outline: none; border-color: var(--primary-color); }
+.chat-send-btn {
+  background-color: var(--primary-color); color: white; border: none;
+  padding: 12px 20px; border-radius: 25px; /* Pill shape */
+  font-weight: bold; cursor: pointer; font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.chat-send-btn:active { background-color: var(--primary-hover); }
+
+/* --- OVERLAYS --- */
+.pause-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center;
+  z-index: 1001; padding: 20px;
+}
+
+.pause-content { background-color: var(--card-bg); padding: 30px; border-radius: 16px; text-align: center; border: 2px solid #f59e0b; }
+.pause-content h2 { color: #f59e0b; font-size: 1.5rem; margin-bottom: 10px; }
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center;
+  z-index: 1000; padding: 20px;
+}
+.modal-content { background: var(--card-bg); padding: 25px; border-radius: 16px; width: 100%; max-width: 350px; text-align: center; }

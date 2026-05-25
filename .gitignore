@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+client/node_modules/
+
+# Build output
+client/dist/
+
+# Environment variables (KEEPS YOUR SECRETS SAFE)
+.env
+
+# Database files
+prisma/dev.db
+prisma/dev.db-journal
+
+# System files
+.DS_Store
